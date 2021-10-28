@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.24.0",
     "classnames": "^2.2.6",
     "normalize.css": "^8.0.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.0.0"
+    "react-scripts": "3.0.0",
+    "sass": "^1.43.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,6 +33,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
     "@storybook/addon-actions": "^5.0.10",
     "@storybook/addon-backgrounds": "^5.0.10",
     "@storybook/addon-links": "^5.0.10",
