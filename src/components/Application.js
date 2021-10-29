@@ -6,7 +6,7 @@ import "components/Application.scss";
 import DayList from "./DayList";
 import "components/Appointment"
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
 
 // const appointments = [
@@ -53,7 +53,8 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments:[{}]
+    appointments:[{}],
+    interviwers:[],
   })
   const setDays = (days) => {
     return setState(prev => {
@@ -61,6 +62,7 @@ export default function Application(props) {
     })
   }
   const setAppointments = (appointArr) => setState(prev => Object.assign({},prev, {appointments:[...appointArr]}))
+  const setInterviwers = (interviwerArr) => setState(prev => Object.assign({},prev, {interviwers:[...interviwerArr]}))
 
   const setDay = day => setState(prev => ({...prev, day:day}))
   let dailyAppointments = []
@@ -74,20 +76,37 @@ export default function Application(props) {
       const tempstate = state;
       setDays(res[0].data)
       const appointArr = []
+      const interviewArr = []
       // console.log(res.data)
       for (let elem in res[1].data){
         // console.log(res.data[elem])
         appointArr.push(res[1].data[elem])
       }
+      for (let elem in res[2].data){
+        // console.log(res.data[elem])
+        interviewArr.push(res[2].data[elem])
+      }
       // console.log('before',state)
       // console.log('dis appoint arr', appointArr)
       setAppointments(appointArr)
+      setInterviwers(interviewArr)
       // console.log(state.appointments)
     })
   }, [])
 
   dailyAppointments = getAppointmentsForDay(state, state.day)
-
+  const schedule = dailyAppointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview)
+  
+    return (
+      <Appointment 
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+      )
+  })
 
   return (
     <main className="layout">
@@ -112,7 +131,7 @@ export default function Application(props) {
       />
       </section>
       <section className="schedule">
-        {dailyAppointments.map((appointment) => <Appointment key={appointment.id} {...appointment}/>)}
+        {schedule}
       </section>
     </main>
   );

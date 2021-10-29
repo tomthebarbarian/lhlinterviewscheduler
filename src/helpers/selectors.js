@@ -7,3 +7,17 @@ export const getAppointmentsForDay = (state, checkDay) => {
   }
   return appointArray;
 };
+
+export const getInterview = (state, interview) => {
+  const ansInterview = interview;
+  let appointArray = [];
+  return ansInterview;
+  // {  
+  //   "student": "Lydia Miller-Jones",
+  //   "interviewer": {  
+  //     "id": 1,
+  //     "name": "Sylvia Palmer",
+  //     "avatar": "https://i.imgur.com/LpaY82x.png"
+  //   }
+  // }
+};
