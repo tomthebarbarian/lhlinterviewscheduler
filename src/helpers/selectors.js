@@ -1,6 +1,8 @@
-function selectUserByName(state, name) {
-  const filteredNames = state.users.filter(user => user.name === name);
-  return filteredNames;
-}
-
-export default selectUserByName;
+export const getAppointmentsForDay = (state, checkDay) => {
+  const filteredAppoint = state.days.filter(day => day.name === checkDay);
+  let appointArray = [];
+  if (filteredAppoint.length > 0) {
+    appointArray = filteredAppoint[0].appointments.map(appointmentId => state.appointments[appointmentId])
+  }
+  return appointArray;
+};
