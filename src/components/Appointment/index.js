@@ -13,7 +13,7 @@ const Appointment = (props) => {
   const SHOW = "SHOW";
   const CREATE = "CREATE";
 
-  // console.log(props.interview)
+  console.log('props.interview',props.interview)
   let starter = props.interview && props.interview.interviewer !== undefined && props.interview.interviewer.length > 0? SHOW : EMPTY
   // console.log(`bool result`, props.interview && props.interview.interviewer !== undefined)
   // console.log('props.interview', props.interview)
@@ -21,7 +21,7 @@ const Appointment = (props) => {
   // console.log(starter)
 
   const {mode, transition, back} = useVisualMode(starter);
-  console.log(mode)
+  // console.log(mode)
   if (props.time) {
     scheduleString = `Appointment at ${props.time}`
   } else {
@@ -41,7 +41,9 @@ const Appointment = (props) => {
             )}
             {mode === CREATE && (
               <Form
-                interviewers={[]}
+                interviewers={props.interviewers}
+                student={props.interview? props.interview.student : ''}
+                interviewer={props.interview? props.interview.interviewer: {}}
                 onCancel={back}
               />
             )}
