@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 
 export default function useVisualMode(initial){
   const [mode, setMode] = useState(initial)
@@ -9,7 +9,7 @@ export default function useVisualMode(initial){
     if (replace) {
       setHistory(prev => {
         const prevCopy = prev
-        const popped = prevCopy.pop()
+        prevCopy.pop()
         // console.log('this is prev copy',prevCopy)
         return [...prev, newMode]
       })
@@ -22,10 +22,10 @@ export default function useVisualMode(initial){
   const back = () => {
     const historyCopy = history;
     if (historyCopy.length > 1){
-      const poppedVal = historyCopy.pop();
+      historyCopy.pop();
       setHistory(historyCopy)
+      setMode(historyCopy[historyCopy.length - 1])
     }
-    setMode(historyCopy[historyCopy.length - 1])
   }
   return {mode, transition, back}
 };

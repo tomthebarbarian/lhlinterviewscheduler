@@ -15,10 +15,12 @@ export const getAppointmentsForDay = (state, checkDay) => {
 export const getInterview = (state, interview) => {
   if (interview) {
   const interviewerId = interview.interviewer;
-  let appointArray = [];
+  // console.log(state)
+  // console.log("avail interviewers", state)
+  // console.log('interviewer',state.interviewers[`${interviewerId}`])
   return {
     student:interview.student,
-    interviewer:state.interviewers[interviewerId]
+    interviewer:state.interviewers[`${interviewerId}`]
   }
   } return null;
 };
