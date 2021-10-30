@@ -9,10 +9,13 @@ const Form = (props) => {
     setStudent('')
     setInterviewer('')
   }
+  
   const cancel = () =>{
+    // console.log('in cancel')
     reset()
     props.onCancel()
   }
+
   return <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
       <form autoComplete="off" onSubmit={event => event.preventDefault()}>
@@ -35,8 +38,8 @@ const Form = (props) => {
     </section>
     <section className="appointment__card-right">
       <section className="appointment__actions">
-        <Button danger onCancel={() => cancel()}>Cancel</Button>
-        <Button confirm onConfirm={props.onConfirm}>Save</Button>
+        <Button danger onClick={() => cancel()}>Cancel</Button>
+        <Button confirm onClick={props.onConfirm}>Save</Button>
       </section>
     </section>
   </main>

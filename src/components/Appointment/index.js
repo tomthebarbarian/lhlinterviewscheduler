@@ -21,7 +21,7 @@ const Appointment = (props) => {
   // console.log(starter)
 
   const {mode, transition, back} = useVisualMode(starter);
-
+  console.log(mode)
   if (props.time) {
     scheduleString = `Appointment at ${props.time}`
   } else {
