@@ -9,8 +9,6 @@ import Appointment from "components/Appointment";
 
 import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
-
-
 export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
@@ -24,6 +22,7 @@ export default function Application(props) {
     ],
     interviewers:[],
   })
+
   const bookInterview = (id, interview) =>{
     console.log(id, interview);
     const appointment = {
@@ -31,11 +30,13 @@ export default function Application(props) {
       interview: { ...interview }
       
     };
-    const appointments = {
+    const appointments = [
       ...state.appointments,
-      [id]: appointment
-    };
+      appointment
+    ];
     setState(prev => ({...prev,appointments}))
+    console.log('url', `http://localhost:8001/api/appointments/:${id}`)
+    return axios.put(`http://localhost:8001/api/appointments/:${id}`)
   }
 
   const setDays = (days) => {
@@ -44,7 +45,6 @@ export default function Application(props) {
     })
   }
   const setAppointments = (appointArr) => setState(prev => Object.assign({},prev, {appointments:[...appointArr]}))
-  
   const setInterviewers = (interviewerArr) => setState(prev => Object.assign({},prev, {interviewers:[...interviewerArr]}))
 
   const setDay = day => setState(prev => ({...prev, day:day}))
@@ -65,12 +65,15 @@ export default function Application(props) {
       for (let elem in res[2].data){
         interviewArr.push(res[2].data[elem])
       }
-      // console.log('interview Arr',interviewArr )
+      // console.log('interviewers Arr',interviewArr )
       setAppointments(appointArr)
+      console.log('is this anything 2',state.interviewers)
       setInterviewers(interviewArr)
+      console.log('is this anything',state.interviewers)
     })
   }, [])
-  // console.log(state);
+
+  console.log(state);
   dailyAppointments = getAppointmentsForDay(state, state.day)
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview)

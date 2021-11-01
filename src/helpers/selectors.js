@@ -18,9 +18,10 @@ export const getInterview = (state, interview) => {
   // console.log(state)
   // console.log("avail interviewers", state)
   // console.log('interviewer',state.interviewers[`${interviewerId}`])
+  // console.log('getting interviewer', state)
   return {
     student:interview.student,
-    interviewer:state.interviewers[`${interviewerId}`]
+    interviewer:state.interviewers[interviewerId-1]
   }
   } return null;
 };
