@@ -10,13 +10,34 @@ import Appointment from "components/Appointment";
 import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
 
+
 export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments:[{}],
+    appointments:[
+      {
+      id: 1,
+      time: "12pm",
+      interview: null,
+      }
+    ],
     interviewers:[],
   })
+  const bookInterview = (id, interview) =>{
+    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+      
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState(prev => ({...prev,appointments}))
+  }
+
   const setDays = (days) => {
     return setState(prev => {
       return ({ ...prev, days })
@@ -63,9 +84,11 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={state.interviewers}
+        bookInterview = {bookInterview}
       />
       )
   })
+
 
   return (
     <main className="layout">

@@ -7,13 +7,16 @@ import Form from "./Form";
 import useVisualMode from "hooks/useVisualMode";
 
 
+
 const Appointment = (props) => {
   let scheduleString
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
 
-  console.log('props.interview',props.interview)
+
+  
+  // console.log('props.interview',props.interview)
   let starter = props.interview && props.interview.interviewer !== undefined && props.interview.interviewer.length > 0? SHOW : EMPTY
   // console.log(`bool result`, props.interview && props.interview.interviewer !== undefined)
   // console.log('props.interview', props.interview)
@@ -27,7 +30,15 @@ const Appointment = (props) => {
   } else {
     scheduleString = 'No appointments'
   }
-
+  
+  const save = function(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+    props.bookInterview(props.id, interview);
+    transition('SHOW')
+  }
   return <article 
             className="appointment"
           >
@@ -45,6 +56,7 @@ const Appointment = (props) => {
                 student={props.interview? props.interview.student : ''}
                 interviewer={props.interview? props.interview.interviewer: {}}
                 onCancel={back}
+                onConfirm={save}
               />
             )}
           </article>
