@@ -7,8 +7,13 @@ import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
 import useVisualMode from "hooks/useVisualMode";
+import { tSEnumDeclaration } from "@babel/types";
 
 
+    
+let confirmMessage = ''
+let confirmOnCancel;
+let confirmConfirm;
 
 const Appointment = (props) => {
   let scheduleString
@@ -16,7 +21,7 @@ const Appointment = (props) => {
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
-  const CONFIRM = 'CONFIRM';
+  const CONFIRM = "CONFIRM";
 
 
   
@@ -33,7 +38,7 @@ const Appointment = (props) => {
   // console.log(starter)
 
   const {mode, transition, back} = useVisualMode(starter);
-  
+
   // console.log(mode)
   if (props.time) {
     scheduleString = `Appointment at ${props.time}`
@@ -51,18 +56,27 @@ const Appointment = (props) => {
     props.bookInterview(props.id, interview)
       .then((result) => {
         console.log('result of put', result.data)
-        transition(SHOW) 
-      }).catch(err => console.log(err))
+        setTimeout(() => transition(SHOW),100) 
+      })
   };
 
   const removeAppoint = function() {
     // transition(CONFIRM)
-    transition(SAVING)
-    props.cancelInterview(props.id)
+    confirmMessage = 'ARE YOUR SURE YOU WANT TO DELETE?'
+    confirmOnCancel = back;
+    confirmConfirm = () => {
+      transition(SAVING)
+      props.cancelInterview(props.id)
       .then((res) => {
         console.log('result of delete', res.data)
         transition(EMPTY)
-      })
+        })
+    };
+    transition(CONFIRM)
+  }
+
+  const toEdit = () => {
+    transition(CREATE)
   }
 
   return <article 
@@ -75,6 +89,7 @@ const Appointment = (props) => {
                 student={props.interview.student}
                 interviewer={props.interview.interviewer}
                 onDelete={removeAppoint}
+                onEdit={toEdit}
               />
             )}
             {mode === CREATE && (
@@ -93,10 +108,9 @@ const Appointment = (props) => {
             )}            
             {mode === CONFIRM && (
               <Confirm
-                message='ARE YOU SURE YOU WANT TO DELETE'
-                onCancel={back}
-                id={props.id}
-                onConfirm={props.cancelInterview}
+                message={confirmMessage}
+                onCancel={confirmOnCancel}
+                onConfirm={confirmConfirm}
               />
             )}
           </article>
