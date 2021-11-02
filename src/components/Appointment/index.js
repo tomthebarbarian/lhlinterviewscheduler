@@ -50,7 +50,7 @@ const Appointment = (props) => {
     transition(SAVING)
     props.bookInterview(props.id, interview)
       .then((result) => {
-        // console.log('result of put', result.data)
+        console.log('result of put', result.data)
         transition(SHOW) 
       }).catch(err => console.log(err))
   };
@@ -60,7 +60,8 @@ const Appointment = (props) => {
     transition(SAVING)
     props.cancelInterview(props.id)
       .then((res) => {
-        transition(SHOW)
+        console.log('result of delete', res.data)
+        transition(EMPTY)
       })
   }
 
@@ -69,7 +70,7 @@ const Appointment = (props) => {
           >
             <Header time={props.time}> {scheduleString}</Header>
             {mode === EMPTY && <Empty onAdd={transition} />}
-            {mode === SHOW && props.interview.interviewer && (
+            {mode === SHOW && props.interview && props.interview.interviewer && (
               <Show
                 student={props.interview.student}
                 interviewer={props.interview.interviewer}
@@ -92,10 +93,10 @@ const Appointment = (props) => {
             )}            
             {mode === CONFIRM && (
               <Confirm
-                // message='ARE YOU SURE YOU WANT TO DELETE'
-                // onCancel={back}
-                // id={props.id}
-                // onConfirm={props.cancelInterview}
+                message='ARE YOU SURE YOU WANT TO DELETE'
+                onCancel={back}
+                id={props.id}
+                onConfirm={props.cancelInterview}
               />
             )}
           </article>

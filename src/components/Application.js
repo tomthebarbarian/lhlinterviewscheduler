@@ -24,17 +24,19 @@ export default function Application(props) {
   })
 
   const bookInterview = (id, interview) =>{
-    console.log('start of book interview', id, interview);
+    // console.log('start of book interview', id, interview);
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
       
     };
-    const appointments = [
-      ...state.appointments,
-      appointment
+    const appointmentsCopy = [
+      ...state.appointments
     ];
-    setState(prev => ({...prev,appointments}))
+
+    appointmentsCopy[id-1] = appointment
+    
+    setState(prev => ({...prev,appointmentsCopy}))
     // console.log('url', `http://localhost:8001/api/appointments/${id}`)
     return (
       axios.put(`http://localhost:8001/api/appointments/${id}`,{interview})
