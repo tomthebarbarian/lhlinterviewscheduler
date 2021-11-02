@@ -7,13 +7,15 @@ import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
 import useVisualMode from "hooks/useVisualMode";
-import { tSEnumDeclaration } from "@babel/types";
 
 
     
 let confirmMessage = ''
-let confirmOnCancel;
+// let confirmOnCancel;
 let confirmConfirm;
+
+let studentName;
+let chosenInstruct;
 
 const Appointment = (props) => {
   let scheduleString
@@ -24,7 +26,7 @@ const Appointment = (props) => {
   const CONFIRM = "CONFIRM";
 
 
-  
+
   // console.log('props.interview',props.interview)
   let starter = props.interview && 
                 // props.interview.interviewer !== undefined &&
@@ -63,7 +65,7 @@ const Appointment = (props) => {
   const removeAppoint = function() {
     // transition(CONFIRM)
     confirmMessage = 'ARE YOUR SURE YOU WANT TO DELETE?'
-    confirmOnCancel = back;
+    // confirmOnCancel = back;
     confirmConfirm = () => {
       transition(SAVING)
       props.cancelInterview(props.id)
@@ -75,10 +77,12 @@ const Appointment = (props) => {
     transition(CONFIRM)
   }
 
-  const toEdit = () => {
+  const toEdit = (name, instruct) => {
+    studentName = name
+    chosenInstruct = instruct
     transition(CREATE)
   }
-
+  
   return <article 
             className="appointment"
           >
@@ -95,8 +99,8 @@ const Appointment = (props) => {
             {mode === CREATE && (
               <Form
                 interviewers={props.interviewers}
-                // student={props.interview? props.interview.student : ''}
-                // interviewer={props.interview? props.interview.interviewer: {}}
+                student={props.interview.student}
+                interviewer={props.interview.interviewer}
                 onCancel={back}
                 onConfirm={save}
               />
@@ -109,7 +113,7 @@ const Appointment = (props) => {
             {mode === CONFIRM && (
               <Confirm
                 message={confirmMessage}
-                onCancel={confirmOnCancel}
+                onCancel={back}
                 onConfirm={confirmConfirm}
               />
             )}
