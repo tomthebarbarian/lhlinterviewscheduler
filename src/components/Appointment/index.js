@@ -61,8 +61,8 @@ const Appointment = (props) => {
     transition(SAVING)
     props.bookInterview(props.id, interview)
       .then((result) => {
-        console.log('result of put', result.data)
-        setTimeout(() => transition(SHOW, true),100) 
+        // console.log('result of put', result.data)
+        transition(SHOW, true)
       })
       .catch(err => {
         console.log(err)

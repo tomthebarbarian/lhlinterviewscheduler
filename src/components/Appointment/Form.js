@@ -16,7 +16,6 @@ const Form = (props) => {
     props.onCancel()
   }
 
-  let tempVal = interviewer ? interviewer.id : interviewer
   return <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
       <form autoComplete="off" onSubmit={event => event.preventDefault()}>
@@ -40,7 +39,7 @@ const Form = (props) => {
     <section className="appointment__card-right">
       <section className="appointment__actions">
         <Button danger onClick={() => cancel()}>Cancel</Button>
-        <Button confirm onClick={() => props.onConfirm(student, interviewer)}>Save</Button>
+        <Button confirm onClick={() => props.onConfirm(student, interviewer.id)}>Save</Button>
       </section>
     </section>
   </main>

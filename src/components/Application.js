@@ -9,7 +9,7 @@ import Appointment from "components/Appointment";
 
 import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
-export default function Application(props) {
+export default function Application() {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -26,18 +26,18 @@ export default function Application(props) {
   const bookInterview = (id, interview) =>{
     // console.log('start of book interview', id, interview);
     const appointment = {
-      ...state.appointments[id],
+      ...state.appointments[id-1],
       interview: { ...interview }
       
     };
-    const appointmentsCopy = [
-      ...state.appointments
-    ];
-
-    appointmentsCopy[id-1] = appointment
+    const appointmentsCopy = state.appointments
     
-    setState(prev => ({...prev,appointmentsCopy}))
+    appointmentsCopy[id-1] = appointment
+    console.log('copy', appointmentsCopy.length)
+    setAppointments(appointmentsCopy)
     // console.log('url', `http://localhost:8001/api/appointments/${id}`)
+    console.log(state)
+    console.log(state.appointments)
     return (
       axios.put(`http://localhost:8001/api/appointments/${id}`,{interview})
     )
@@ -83,7 +83,7 @@ export default function Application(props) {
       setInterviewers(interviewArr)
       // console.log('is this anything',state.interviewers)
     })
-  }, [])
+  }, [state.appointments])
 
   dailyAppointments = getAppointmentsForDay(state, state.day)
   // console.log('daily appoint', dailyAppointments);
@@ -104,7 +104,7 @@ export default function Application(props) {
       />
       )
   })
-  console.log('schedule',schedule);
+  // console.log('schedule',schedule);
 
   return (
     <main className="layout">
@@ -130,6 +130,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
+        <Appointment key={6} time='5pm'></Appointment>
       </section>
     </main>
   );
