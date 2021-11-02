@@ -16,6 +16,7 @@ const Form = (props) => {
     props.onCancel()
   }
 
+  let tempVal = interviewer ? interviewer.id : interviewer
   return <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
       <form autoComplete="off" onSubmit={event => event.preventDefault()}>
@@ -32,7 +33,7 @@ const Form = (props) => {
       </form>
       <InterviewerList 
         interviewers={props.interviewers}
-        value={interviewer.id}
+        value={tempVal}
         onChange={setInterviewer}
       />
     </section>

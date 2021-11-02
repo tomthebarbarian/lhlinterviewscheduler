@@ -6,6 +6,7 @@ import Empty from "./Empty";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
+import Error from "./Error";
 import useVisualMode from "hooks/useVisualMode";
 
 
@@ -24,6 +25,7 @@ const Appointment = (props) => {
   const CREATE = "CREATE";
   const SAVING = "SAVING";
   const CONFIRM = "CONFIRM";
+  const ERROR = "ERROR";
 
 
 
@@ -33,7 +35,8 @@ const Appointment = (props) => {
                 // props.interview.interviewer.length > 0 &&
                 (true) ?
                 SHOW : EMPTY
-
+  studentName = props.interview ? props.interview.student : ''
+  chosenInstruct = props.interview? props.interview.interviewer: null;
   // console.log(`bool result`, props.interview && props.interview.interviewer !== undefined)
   // console.log('props.interview', props.interview)
   // console.log(props.interview.interviewer)
@@ -60,6 +63,7 @@ const Appointment = (props) => {
         console.log('result of put', result.data)
         setTimeout(() => transition(SHOW),100) 
       })
+      .catch(transition(ERROR))
   };
 
   const removeAppoint = function() {
@@ -72,7 +76,8 @@ const Appointment = (props) => {
       .then((res) => {
         console.log('result of delete', res.data)
         transition(EMPTY)
-        })
+      })
+      .catch(transition(ERROR))
     };
     transition(CONFIRM)
   }
@@ -90,8 +95,8 @@ const Appointment = (props) => {
             {mode === EMPTY && <Empty onAdd={transition} />}
             {mode === SHOW && props.interview && props.interview.interviewer && (
               <Show
-                student={props.interview.student}
-                interviewer={props.interview.interviewer}
+                student={studentName}
+                interviewer={chosenInstruct}
                 onDelete={removeAppoint}
                 onEdit={toEdit}
               />
@@ -99,8 +104,8 @@ const Appointment = (props) => {
             {mode === CREATE && (
               <Form
                 interviewers={props.interviewers}
-                student={props.interview.student}
-                interviewer={props.interview.interviewer}
+                student={studentName}
+                interviewer={chosenInstruct}
                 onCancel={back}
                 onConfirm={save}
               />
@@ -115,6 +120,12 @@ const Appointment = (props) => {
                 message={confirmMessage}
                 onCancel={back}
                 onConfirm={confirmConfirm}
+              />
+            )}
+            {mode === ERROR && (
+              <Error
+                message={'THERE WAS AN ERROR'}
+                onClose={back}
               />
             )}
           </article>
