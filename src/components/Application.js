@@ -85,8 +85,8 @@ export default function Application(props) {
     })
   }, [])
 
-  // console.log(state);
   dailyAppointments = getAppointmentsForDay(state, state.day)
+  // console.log('daily appoint', dailyAppointments);
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview)
     // console.log('schedule interview', appointment.interview)
@@ -104,7 +104,7 @@ export default function Application(props) {
       />
       )
   })
-
+  console.log('schedule',schedule);
 
   return (
     <main className="layout">

@@ -25,7 +25,8 @@ const Appointment = (props) => {
   const CREATE = "CREATE";
   const SAVING = "SAVING";
   const CONFIRM = "CONFIRM";
-  const ERROR = "ERROR";
+  const ERROR_DELETE = "ERROR_DELETE";
+  const ERROR_SAVE = "ERROR_SAVE";
 
 
 
@@ -61,9 +62,12 @@ const Appointment = (props) => {
     props.bookInterview(props.id, interview)
       .then((result) => {
         console.log('result of put', result.data)
-        setTimeout(() => transition(SHOW),100) 
+        setTimeout(() => transition(SHOW, true),100) 
       })
-      .catch(transition(ERROR))
+      .catch(err => {
+        console.log(err)
+        transition(ERROR_SAVE, true)
+      })
   };
 
   const removeAppoint = function() {
@@ -75,9 +79,12 @@ const Appointment = (props) => {
       props.cancelInterview(props.id)
       .then((res) => {
         console.log('result of delete', res.data)
-        transition(EMPTY)
+        transition(EMPTY, true)
       })
-      .catch(transition(ERROR))
+      .catch(err => {
+        console.log(err)
+        transition(ERROR_DELETE, true)
+      })
     };
     transition(CONFIRM)
   }
@@ -122,9 +129,15 @@ const Appointment = (props) => {
                 onConfirm={confirmConfirm}
               />
             )}
-            {mode === ERROR && (
+            {mode === ERROR_DELETE && (
               <Error
-                message={'THERE WAS AN ERROR'}
+                message={'THERE WAS A DELETE ERROR'}
+                onClose={back}
+              />
+            )}
+            {mode === ERROR_SAVE && (
+              <Error
+                message={'THERE WAS A SAVE ERROR'}
                 onClose={back}
               />
             )}

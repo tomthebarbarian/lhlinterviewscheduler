@@ -33,7 +33,7 @@ const Form = (props) => {
       </form>
       <InterviewerList 
         interviewers={props.interviewers}
-        value={tempVal}
+        value={interviewer}
         onChange={setInterviewer}
       />
     </section>
