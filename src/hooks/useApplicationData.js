@@ -32,7 +32,7 @@ const useApplicationData = function() {
     currId = currDay[0].id
   }
 
-  const updateSpot = (id, increment) => {
+  const updateSpots = (id, increment) => {
     const copyDays = state.days;
     if (increment) {
       copyDays[id-1].spots += 1
@@ -68,7 +68,7 @@ const useApplicationData = function() {
       axios.put(`http://localhost:8001/api/appointments/${id}`,{interview})
         .then(() => {
           if (createNewAppointment){
-            updateSpot(currId, false)
+            updateSpots(currId, false)
           }
         })
     )
@@ -81,7 +81,7 @@ const useApplicationData = function() {
     appointCopy[id-1].interview = null
     setAppointments(appointCopy);
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
-      .then(updateSpot(currId, true))
+      .then(updateSpots(currId, true))
   }
 
   useEffect(() => {
