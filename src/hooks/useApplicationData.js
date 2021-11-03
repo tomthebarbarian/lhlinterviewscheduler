@@ -14,7 +14,7 @@ const useApplicationData = function() {
     ],
     interviewers:[],
   })
-  const setDay = day => setState(prev => ({...prev, day:day}))
+  
   const setAppointments = (appointArr) => setState(prev => Object.assign({},prev, {appointments:[...appointArr]}))
   const setInterviewers = (interviewerArr) => setState(prev => Object.assign({},prev, {interviewers:[...interviewerArr]}))
   const setDays = (days) => {
@@ -22,6 +22,28 @@ const useApplicationData = function() {
       return ({ ...prev, days })
     })
   }
+
+  // Get the current day
+  const currDay = state.days.filter(elem => elem.name === state.day)
+  // console.log('currday',currDay)
+  
+  let currId
+  if (currDay.length>0) {
+    currId = currDay[0].id
+  }
+
+  const updateSpot = (id, increment) => {
+    const copyDays = state.days;
+    if (increment) {
+      copyDays[id-1].spots += 1
+    } else {
+      copyDays[id-1].spots -= 1
+    }
+    // console.log('copy days', copyDays)
+    setDays(copyDays)
+  }
+
+  const setDay = day => setState(prev => ({...prev, day}))
 
   const bookInterview = (id, interview) =>{
     // console.log('start of book interview', id, interview);
@@ -31,22 +53,35 @@ const useApplicationData = function() {
       
     };
     const appointmentsCopy = state.appointments;
-
-    appointmentsCopy[id-1] = appointment
     
-    setState(prev => ({...prev,appointmentsCopy}))
+    // Check if update or create
+    let createNewAppointment = false;
+    if (appointmentsCopy[id-1].interview === null) {
+      createNewAppointment = true;
+    }
+    
+    appointmentsCopy[id-1] = appointment
+
+    setState(prev => ({...prev,appointments:appointmentsCopy}))
     // console.log('url', `http://localhost:8001/api/appointments/${id}`)
     return (
       axios.put(`http://localhost:8001/api/appointments/${id}`,{interview})
+        .then(() => {
+          if (createNewAppointment){
+            updateSpot(currId, false)
+          }
+        })
     )
             
   }
+
 
   const cancelInterview = (id) => {
     const appointCopy = state.appointments
     appointCopy[id-1].interview = null
     setAppointments(appointCopy);
     return axios.delete(`http://localhost:8001/api/appointments/${id}`)
+      .then(updateSpot(currId, true))
   }
 
   useEffect(() => {
