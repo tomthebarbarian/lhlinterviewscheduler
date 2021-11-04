@@ -7,7 +7,7 @@ describe("Appointments", () => {
 
   it('should book an interview', () => {
     cy.get("[alt=Add]")
-      .eq(1)
+      .first()
       .click()
     cy.get('[data-testid=student-name-input]')
       .type('Lydia Miller-Jones')
@@ -25,25 +25,30 @@ describe("Appointments", () => {
     cy.visit("/");
 
 
-    cy.get("article:nth-child(2)")
-      .get('main > section.appointment__card-right > section > img:nth-child(1)')
+    cy.get("article:nth-child(1)")
+    cy.get('main > section.appointment__card-right > section > img:nth-child(1)')
       .invoke('show')
       .click()
       .get('input')
+      .clear()
       .type('Edit Name')
-      .get('section.appointment__card-left > section > ul > li:nth-child(1)')
+    cy.get("[alt='Tori Malcolm']").click();
+    cy.get('.button--confirm')
       .click()
-      .get('.button--confirm')
-      .click()
+    cy.contains(".appointment__card--show", "Edit Name");
+    cy.contains(".appointment__card--show", "Tori Malcolm");
   })
 
-  // it('should delete interview', () => {
-  //   cy.visit("/");
-  //   cy.get("article:nth-child(2)")
-  //     .get('main > section.appointment__card-right > section > img:nth-child(2)')
-  //     .invoke('show')
-  //     .click()
-  //     .get('section.appointment__actions > button:nth-child(2)')
-  //     .click()
-  // })
+  it('should delete interview', () => {
+    cy.visit("/");
+    cy.get("[alt=Delete]")
+      .click({ force: true });
+    cy.contains("Confirm").click();
+
+    cy.contains("Deleting").should("exist");
+    cy.contains("Deleting").should("not.exist");
+
+    cy.contains(".appointment__card--show", "Archie Cohen")
+    .should("not.exist");
+  })
 })

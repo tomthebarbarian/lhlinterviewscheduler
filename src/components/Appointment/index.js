@@ -24,6 +24,7 @@ const Appointment = (props) => {
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
+  const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
   const ERROR_DELETE = "ERROR_DELETE";
   const ERROR_SAVE = "ERROR_SAVE";
@@ -71,7 +72,7 @@ const Appointment = (props) => {
     confirmMessage = 'ARE YOUR SURE YOU WANT TO DELETE?'
     // confirmOnCancel = back;
     confirmConfirm = () => {
-      transition(SAVING)
+      transition(DELETING)
       props.cancelInterview(props.id)
       .then((res) => {
         console.log('result of delete', res.data)
@@ -119,6 +120,11 @@ const Appointment = (props) => {
             {mode === SAVING && (
               <Status
                 message='Saving'
+              />
+            )}            
+            {mode === DELETING && (
+              <Status
+                message='Deleting'
               />
             )}            
             {mode === CONFIRM && (
