@@ -97,12 +97,7 @@ const Appointment = (props) => {
             <Header time={props.time}> {scheduleString}</Header>
             {mode === EMPTY && !props.interview && <Empty onAdd={transition} />}
             {mode === EMPTY && props.interview && props.interview.interviewer && (
-              <Show
-                student={studentName}
-                interviewer={chosenInstruct}
-                onDelete={removeAppoint}
-                onEdit={toEdit}
-              />
+              transition(SHOW)
             )}
             {mode === SHOW && props.interview && props.interview.interviewer && (
               <Show
