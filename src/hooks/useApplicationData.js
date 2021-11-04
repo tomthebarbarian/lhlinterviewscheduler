@@ -17,6 +17,7 @@ const useApplicationData = function() {
   
   const setAppointments = (appointArr) => setState(prev => Object.assign({},prev, {appointments:[...appointArr]}))
   const setInterviewers = (interviewerArr) => setState(prev => Object.assign({},prev, {interviewers:[...interviewerArr]}))
+  const setDay = day => setState(prev => ({...prev, day}))
   const setDays = (days) => {
     return setState(prev => {
       return ({ ...prev, days })
@@ -25,13 +26,13 @@ const useApplicationData = function() {
 
   // Get the current day
   const currDay = state.days.filter(elem => elem.name === state.day)
-  // console.log('currday',currDay)
-  
+
   let currId
   if (currDay.length>0) {
     currId = currDay[0].id
   }
 
+  // Update free spots
   const updateSpots = (id, increment) => {
     const copyDays = state.days;
     if (increment) {
@@ -39,14 +40,10 @@ const useApplicationData = function() {
     } else {
       copyDays[id-1].spots -= 1
     }
-    // console.log('copy days', copyDays)
-    setDays(copyDays)
+     setDays(copyDays)
   }
 
-  const setDay = day => setState(prev => ({...prev, day}))
-
   const bookInterview = (id, interview) =>{
-    // console.log('start of book interview', id, interview);
     const appointment = {
       ...state.appointments[id-1],
       interview: { ...interview }
@@ -59,11 +56,8 @@ const useApplicationData = function() {
     if (appointmentsCopy[id-1].interview === null) {
       createNewAppointment = true;
     }
-    
     appointmentsCopy[id-1] = appointment
-
     setState(prev => ({...prev,appointments:appointmentsCopy}))
-    // console.log('url', `http://localhost:8001/api/appointments/${id}`)
     return (
       axios.put(`http://localhost:8001/api/appointments/${id}`,{interview})
         .then(() => {
@@ -71,10 +65,8 @@ const useApplicationData = function() {
             updateSpots(currId, false)
           }
         })
-    )
-            
+    )         
   }
-
 
   const cancelInterview = (id) => {
     const appointCopy = state.appointments
@@ -100,14 +92,10 @@ const useApplicationData = function() {
       for (let elem in res[2].data){
         interviewArr.push(res[2].data[elem])
       }
-      // console.log('interviewers Arr',interviewArr )
       setAppointments(appointArr)
-      // console.log('is this anything 2',state.interviewers)
       setInterviewers(interviewArr)
-      // console.log('is this anything',state.interviewers)
     })
   }, [])
-
   return {state, setDay, bookInterview, cancelInterview}
 }
 export default useApplicationData;

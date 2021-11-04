@@ -10,20 +10,24 @@ const InterviewerList = (props) => {
   let value = props.value
 
   let allInterviewers = interviewers.map(interviewer => {
-    return <InterviewerListItem
-            key={interviewer.id}
-            name={interviewer.name}
-            avatar={interviewer.avatar}
-            selected={value && interviewer.id === value.id}
-            setInterviewer={() => onChange(interviewer)}
-          />
+    return (
+    <InterviewerListItem
+      key={interviewer.id}
+      name={interviewer.name}
+      avatar={interviewer.avatar}
+      selected={value && interviewer.id === value.id}
+      setInterviewer={() => onChange(interviewer)}
+    />
+    )
   })
-  return <section className="interviewers">
-  <h4 className="interviewers__header text--light">Interviewer</h4>
-  <ul className="interviewers__list">
-    {allInterviewers}
-  </ul>
-</section>
+  return (
+    <section className="interviewers">
+      <h4 className="interviewers__header text--light">Interviewer</h4>
+      <ul className="interviewers__list">
+        {allInterviewers}
+      </ul>
+    </section>
+  )
 }
 
 InterviewerList.propTypes = {

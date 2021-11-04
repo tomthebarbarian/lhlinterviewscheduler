@@ -10,7 +10,6 @@ export default function useVisualMode(initial){
       setHistory(prev => {
         const prevCopy = prev
         prevCopy.pop()
-        // console.log('this is prev copy',prevCopy)
         return [...prev, newMode]
       })
     } else {

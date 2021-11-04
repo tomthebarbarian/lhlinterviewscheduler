@@ -13,15 +13,12 @@ const Form = (props) => {
   }
   
   const cancel = () =>{
-    // console.log('in cancel')
     reset()
     props.onCancel()
   }
-  // console.log('should raise error1',student)
+
   const validate = function () {
-    // console.log('should raise error1',student)
     if (student === "") {
-      // console.log('should raise error')
       setError("Student name cannot be blank");
       return;
     } else  {
@@ -29,37 +26,37 @@ const Form = (props) => {
     }
   }
 
-  // console.log(error)
-  return <main className="appointment__card appointment__card--create">
-    <section className="appointment__card-left">
-      <form autoComplete="off" onSubmit={event => event.preventDefault()}>
-        <input
-          className="appointment__create-input text--semi-bold"
-          name={student}
-          type="text"
-          placeholder="Enter Student Name"
-          value={student}
-          onChange={(event) => {
-            setError('')
-            setStudent(event.target.value)
-          }}
-          data-testid='student-name-input'
-          />
-      <section className="appointment__validation">{error}</section>
-      </form>
-      <InterviewerList 
-        interviewers={props.interviewers}
-        value={interviewer}
-        onChange={setInterviewer}
-      />
-    </section>
-    <section className="appointment__card-right">
-      <section className="appointment__actions">
-        <Button danger onClick={() => cancel()}>Cancel</Button>
-        <Button confirm onClick={() => validate()}>Save</Button>
+  return (
+    <main className="appointment__card appointment__card--create">
+      <section className="appointment__card-left">
+        <form autoComplete="off" onSubmit={event => event.preventDefault()}>
+          <input
+            className="appointment__create-input text--semi-bold"
+            name={student}
+            type="text"
+            placeholder="Enter Student Name"
+            value={student}
+            onChange={(event) => {
+              setError('')
+              setStudent(event.target.value)
+            }}
+            data-testid='student-name-input'
+            />
+        <section className="appointment__validation">{error}</section>
+        </form>
+        <InterviewerList 
+          interviewers={props.interviewers}
+          value={interviewer}
+          onChange={setInterviewer}
+        />
       </section>
-    </section>
-  </main>
+      <section className="appointment__card-right">
+        <section className="appointment__actions">
+          <Button danger onClick={() => cancel()}>Cancel</Button>
+          <Button confirm onClick={() => validate()}>Save</Button>
+        </section>
+      </section>
+    </main>
+  )
 };
-
 export default Form;
