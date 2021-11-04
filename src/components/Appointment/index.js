@@ -30,21 +30,17 @@ const Appointment = (props) => {
 
 
 
-  // console.log('props.interview',props.interview)
-  let starter = props.interview && 
-                // props.interview.interviewer !== undefined &&
-                // props.interview.interviewer.length > 0 &&
-                (true) ?
-                SHOW : EMPTY
+  console.log('props.interview',props.interview)
+  let starter = props.interview ? SHOW : EMPTY
+  
   studentName = props.interview ? props.interview.student : ''
+  
   chosenInstruct = props.interview? props.interview.interviewer: null;
-  // console.log(`bool result`, props.interview && props.interview.interviewer !== undefined)
-  // console.log('props.interview', props.interview)
-  // console.log(props.interview.interviewer)
-  // console.log(starter)
 
   const {mode, transition, back} = useVisualMode(starter);
-
+  // if(props.interview) {
+  //   starter = SHOW;
+  // }
   // console.log(mode)
   if (props.time) {
     scheduleString = `Appointment at ${props.time}`
@@ -94,12 +90,20 @@ const Appointment = (props) => {
     chosenInstruct = instruct
     transition(CREATE)
   }
-  
+
   return <article 
             className="appointment"
           >
             <Header time={props.time}> {scheduleString}</Header>
-            {mode === EMPTY && <Empty onAdd={transition} />}
+            {mode === EMPTY && !props.interview && <Empty onAdd={transition} />}
+            {mode === EMPTY && props.interview && props.interview.interviewer && (
+              <Show
+                student={studentName}
+                interviewer={chosenInstruct}
+                onDelete={removeAppoint}
+                onEdit={toEdit}
+              />
+            )}
             {mode === SHOW && props.interview && props.interview.interviewer && (
               <Show
                 student={studentName}
