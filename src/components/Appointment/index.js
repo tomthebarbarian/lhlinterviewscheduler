@@ -57,7 +57,7 @@ const Appointment = (props) => {
       student: name,
       interviewer
     };
-    console.log('save', interview)
+    // console.log('save', interview)
     transition(SAVING)
     props.bookInterview(props.id, interview)
       .then((result) => {
