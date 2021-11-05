@@ -49,7 +49,7 @@ const useApplicationData = function() {
       interview: { ...interview }
       
     };
-    const appointmentsCopy = state.appointments;
+    const appointmentsCopy = [...state.appointments];
     
     // Check if update or create
     let createNewAppointment = false;
@@ -57,11 +57,11 @@ const useApplicationData = function() {
       createNewAppointment = true;
     }
     appointmentsCopy[id-1] = appointment
-    setState(prev => ({...prev,appointments:appointmentsCopy}))
     return (
       axios.put(`/api/appointments/${id}`,{interview})
         .then(() => {
           if (createNewAppointment){
+            setState(prev => ({...prev,appointments:appointmentsCopy}))
             updateSpots(currId, false)
           }
         })
@@ -69,11 +69,15 @@ const useApplicationData = function() {
   }
 
   const cancelInterview = (id) => {
-    const appointCopy = state.appointments
+    const appointCopy = [...state.appointments]
     appointCopy[id-1].interview = null
-    setAppointments(appointCopy);
+    
     return axios.delete(`/api/appointments/${id}`)
-      .then(updateSpots(currId, true))
+      .then(() => {
+        setAppointments(appointCopy)
+        updateSpots(currId, true)
+      }
+      )
   }
 
   useEffect(() => {

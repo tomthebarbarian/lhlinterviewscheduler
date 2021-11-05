@@ -54,6 +54,7 @@ const Appointment = (props) => {
   };
 
   const removeAppoint = function() {
+    transition(CONFIRM, false)
     confirmMessage = 'ARE YOUR SURE YOU WANT TO DELETE?'
     confirmConfirm = () => {
       transition(DELETING)
@@ -62,10 +63,9 @@ const Appointment = (props) => {
         transition(EMPTY, true)
       })
       .catch(err => {
-        transition(ERROR_DELETE, true)
+        transition(ERROR_DELETE,true)
       })
     };
-    transition(CONFIRM)
   }
 
   const toEdit = (name, instruct) => {

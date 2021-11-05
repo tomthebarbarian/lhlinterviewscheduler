@@ -8,12 +8,17 @@ export default function useVisualMode(initial){
     setMode(newMode)
     if (replace) {
       setHistory(prev => {
-        const prevCopy = prev
+        const prevCopy = [...prev]
         prevCopy.pop()
-        return [...prev, newMode]
+        return [...prevCopy, newMode]
       })
     } else {
-      setHistory(prev => [...prev, newMode])
+      // console.log('not overwriting')
+      setHistory(prev => {
+        const prevCopy = [...prev]
+        return [...prevCopy, newMode]
+        }
+      )
     }
   };
 
@@ -22,6 +27,8 @@ export default function useVisualMode(initial){
     if (historyCopy.length > 1){
       historyCopy.pop();
       setHistory(historyCopy)
+      // console.log(historyCopy)
+      console.log('set to', historyCopy[historyCopy.length - 1])
       setMode(historyCopy[historyCopy.length - 1])
     }
   }
