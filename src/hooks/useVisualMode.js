@@ -18,7 +18,7 @@ export default function useVisualMode(initial){
   };
 
   const back = () => {
-    const historyCopy = history;
+    const historyCopy = [...history];
     if (historyCopy.length > 1){
       historyCopy.pop();
       setHistory(historyCopy)

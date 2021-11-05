@@ -50,6 +50,7 @@ const Appointment = (props) => {
         console.log(err)
         transition(ERROR_SAVE, true)
       })
+    
   };
 
   const removeAppoint = function() {

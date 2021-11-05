@@ -21,7 +21,10 @@ const Form = (props) => {
     if (student === "") {
       setError("Student name cannot be blank");
       return;
-    } else  {
+    } else if (interviewer === null){
+      setError("Must select an interviewer");
+      return;
+    } else {
       props.onConfirm(student, interviewer.id);
     }
   }
@@ -53,7 +56,7 @@ const Form = (props) => {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={() => cancel()}>Cancel</Button>
-          <Button confirm onClick={() => validate()}>Save</Button>
+          <Button confirm onClick={validate}>Save</Button>
         </section>
       </section>
     </main>
