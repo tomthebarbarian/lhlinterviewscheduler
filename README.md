@@ -26,6 +26,7 @@ Main page and Interviews on Monday
 
 # Features
 ## Creating a new appointment
+!["create appointment gif"](docs/ANewAppointment.gif)
 Here's how to create a new appointment
 
 Click an available spot, you may need to click on a day in the list of days to find one.
@@ -40,7 +41,7 @@ Click save, or cancel to back out
 Appointment should appear in list
 
 ## Editing an existing appointment
-!["create appointment gif"](docs/AeditAppointment.gif)
+!["edit appointment gif"](docs/AeditAppointment.gif)
 Mouse over an existing appointment,
 
 Click the edit icon
