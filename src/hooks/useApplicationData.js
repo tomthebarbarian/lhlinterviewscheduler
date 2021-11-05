@@ -34,7 +34,7 @@ const useApplicationData = function() {
 
   // Update free spots
   const updateSpots = (id, increment) => {
-    const copyDays = state.days;
+    const copyDays = [...state.days];
     if (increment) {
       copyDays[id-1].spots += 1
     } else {
