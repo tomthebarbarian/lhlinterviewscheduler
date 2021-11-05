@@ -27,12 +27,7 @@ Main page and Interviews on Monday
 # Features
 !["starting page"](docs/startpage.png)
 The starting page
-
-## Changing viewed day
-!["change day"](docs/startpage.png)
-click on desired day in the side bar.
 ## Creating a new appointment
-!["create new appointment gif"](docs/ANewAppointment.gif)
 Here's the create a new appointment
 
 Click an available spot, you may need to click on a day in the list of days to find one.
@@ -47,6 +42,7 @@ Appointment should appear in list
 
 ## Editing an existing appointment
 !["create appointment gif"](docs/AeditAppointment.gif)
+/Users/tomzhang/Documents/LightHouseLabs/week7_react/lhlinterviewscheduler/docs/AeditAppointment.gif
 Mouse over an existing appointment,
 
 Click the edit icon
@@ -65,3 +61,6 @@ Yes confirm if sure or cancel if not
 
 The appointment should be permanently deleted
 
+## Changing Visible Day
+Click on the desired day to view in the 
+day sidebar
