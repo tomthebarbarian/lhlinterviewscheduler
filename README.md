@@ -26,13 +26,14 @@ Main page and Interviews on Monday
 
 # Features
 ## Creating a new appointment
-Here's the create a new appointment
+Here's how to create a new appointment
 
 Click an available spot, you may need to click on a day in the list of days to find one.
 
 A form should open up, enter the name of the person making the interview into the form
 
-Mandatory: Click on a desired/available interviewer from the list.
+####Mandatory: 
+Click on a desired/available interviewer from the list.
 
 Click save, or cancel to back out
 
