@@ -32,7 +32,7 @@ The starting page
 !["change day"](docs/startpage.png)
 click on desired day in the side bar.
 ## Creating a new appointment
-!["create new appointment"](docs/newtweet.png)
+!["create new appointment gif"](docs/ANewAppointment.gif)
 Here's the create a new appointment
 
 Click an available spot, you may need to click on a day in the list of days to find one.
@@ -46,6 +46,7 @@ Click save, or cancel to back out
 Appointment should appear in list
 
 ## Editing an existing appointment
+!["create appointment gif"](docs/AeditAppointment.gif)
 Mouse over an existing appointment,
 
 Click the edit icon
@@ -55,6 +56,7 @@ Change person booking intervew and interviewer as desired
 Click save, or cancel to back out
 
 ## Deleting an existing appointment
+!["delete appointment gif"](docs/DeleteAppointment.gif)
 Mouse over an existing appointment,
 
 Click the delete/garbage icon
