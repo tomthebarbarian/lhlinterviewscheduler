@@ -10,8 +10,6 @@ import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 export default function Application() {
   const {state, setDay, bookInterview, cancelInterview} = useApplicationData()
   const dailyAppointments = getAppointmentsForDay(state, state.day)
-  
-  // console.log(state)
 
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview)
