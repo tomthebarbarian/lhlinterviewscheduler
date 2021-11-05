@@ -79,7 +79,7 @@ const useApplicationData = function() {
       }
       )
   }
-
+  // Api calls to get data from server
   useEffect(() => {
     Promise.all([
       axios.get('/api/days'),
