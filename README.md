@@ -25,8 +25,6 @@ npm start
 Main page and Interviews on Monday
 
 # Features
-!["starting page"](docs/startpage.png)
-The starting page
 ## Creating a new appointment
 Here's the create a new appointment
 
