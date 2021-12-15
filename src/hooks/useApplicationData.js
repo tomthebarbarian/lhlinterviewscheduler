@@ -1,8 +1,28 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, useReducer} from "react"
 import axios from 'axios'
 
+const SET_DAY = "SET_DAY"
+const SET_APPLICATION_DATA = "SET_APPLICATION_DATA"
+const SET_INTERVIEW = "SET_INTERVIEW"
+const reducer = (state, action) => {
+  switch (action.type) {
+  case SET_DAY:
+    return {}
+  case SET_INTERVIEW:
+    return {}
+  case SET_APPLICATION_DATA:
+    return {}
+  default:
+    throw new Error(
+      `Tried to reduce with unsupported action type: ${action.type}`
+    )
+  }
+};
+
+
 const useApplicationData = function() {
-  const [state, setState] = useState({
+
+  const [state, dispatch] = useReducer( reducer,{
     day: "Monday",
     days: [],
     appointments:[
@@ -15,6 +35,8 @@ const useApplicationData = function() {
     interviewers:[],
   })
   
+  
+
   const setAppointments = (appointArr) => setState(prev => Object.assign({},prev, {appointments:[...appointArr]}))
   const setInterviewers = (interviewerArr) => setState(prev => Object.assign({},prev, {interviewers:[...interviewerArr]}))
   const setDay = day => setState(prev => ({...prev, day}))
