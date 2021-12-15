@@ -1,4 +1,4 @@
-import {useState, useEffect, useReducer} from "react"
+import { useEffect, useReducer} from "react"
 import axios from 'axios'
 
 const SET_DAY = "SET_DAY"
@@ -16,10 +16,12 @@ const reducer = (state, action) => {
       interview: action.interview,
     }
   case SET_APPLICATION_DATA:
-    return {
+    return {    
+      ...state,
+      interviewers: action.interviewers,
       days: action.days,
       appointments: action.appointments,
-      interviewers: action.interviewers,
+  
     }
   default:
     throw new Error(
@@ -27,6 +29,7 @@ const reducer = (state, action) => {
     )
   }
 };
+
 const initState = {
   day: "Monday",
   days: [],
@@ -42,16 +45,17 @@ const initState = {
 
 const useApplicationData = function() {
 
-  const [state, dispatch] = useReducer( reducer,initState)
+  const [state, dispatch] = useReducer(reducer,initState)
    
 
   const setAppointments = (appointArr) => dispatch(
     {
-    type: SET_APPLICATION_DATA, 
-    days: state.days,
-    appointments:appointArr,
-    interviewers: state.interviewers 
-  })
+      type: SET_APPLICATION_DATA, 
+      days: state.days,
+      appointments:appointArr,
+      interviewers: state.interviewers 
+    }
+  )
   const setInterviewers = (interviewerArr) => dispatch(
     {
     type: SET_APPLICATION_DATA, 
@@ -60,15 +64,25 @@ const useApplicationData = function() {
     interviewers: interviewerArr 
   })
 
-  const setInterviewers = (interviewerArr) => setState(prev => Object.assign({},prev, {interviewers:[...interviewerArr]}))
-  const setDay = day => dispatch({type:SET_DAY, day})
-  const setDays = (days) => {
-    dispatch({})
-  }
-
+  // const setInterviewers = (interviewerArr) => setState(prev => Object.assign({},prev, {interviewers:[...interviewerArr]}))
+  const setDay = day => dispatch({type:SET_DAY, day:day})
+  
+  // const setDays = (days) => {
+  //   dispatch({})
+  // }
+  const setDays = (days) => dispatch(
+    {
+    type: SET_APPLICATION_DATA, 
+    days: days,
+    appointments: state.appointments,
+    interviewers: state.interviewers 
+  })
+  
   // Get the current day
-  const currDay = state.days.filter(elem => elem.name === state.day)
-
+  let currDay = state.day
+  if (state.days && state.days.length > 0) {
+    currDay = state.days.filter(elem => elem.name === state.day)
+  } 
   let currId
   if (currDay.length>0) {
     currId = currDay[0].id
@@ -103,7 +117,7 @@ const useApplicationData = function() {
       axios.put(`/api/appointments/${id}`,{interview})
         .then(() => {
           if (createNewAppointment){
-            setState(prev => ({...prev,appointments:appointmentsCopy}))
+            setAppointments(appointmentsCopy)
             updateSpots(currId, false)
           }
         })
@@ -129,7 +143,6 @@ const useApplicationData = function() {
       axios.get('/api/interviewers')
     ])
     .then(res => {
-      setDays(res[0].data)
       const appointArr = []
       const interviewArr = []
       for (let elem in res[1].data){
@@ -138,13 +151,19 @@ const useApplicationData = function() {
       for (let elem in res[2].data){
         interviewArr.push(res[2].data[elem])
       }
+      dispatch({
+        type: SET_APPLICATION_DATA,
+        days:res[0].data,
+        appointments:appointArr,
+        interviewers:interviewArr });
+      // setDays(res[0].data)
       // setAppointments(appointArr)
-      dispatch({ type: SET_APPLICATION_DATA, days, appointments, interviewers });
       // setInterviewers(interviewArr)
-      dispatch({ type: SET_INTERVIEW, id, interview });
+      // dispatch({ type: SET_INTERVIEW, id, interview });
 
     })
   }, [])
+
   return {state, setDay, bookInterview, cancelInterview}
 }
 export default useApplicationData;
