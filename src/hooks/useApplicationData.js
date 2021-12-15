@@ -7,43 +7,63 @@ const SET_INTERVIEW = "SET_INTERVIEW"
 const reducer = (state, action) => {
   switch (action.type) {
   case SET_DAY:
-    return {}
+    return {
+      day: action.day,
+    }
   case SET_INTERVIEW:
-    return {}
+    return {
+      id: action.id,
+      interview: action.interview,
+    }
   case SET_APPLICATION_DATA:
-    return {}
+    return {
+      days: action.days,
+      appointments: action.appointments,
+      interviewers: action.interviewers,
+    }
   default:
     throw new Error(
       `Tried to reduce with unsupported action type: ${action.type}`
     )
   }
 };
-
+const initState = {
+  day: "Monday",
+  days: [],
+  appointments:[
+    {
+    id: 1,
+    time: "12pm",
+    interview: null,
+    }
+  ],
+  interviewers:[],
+}
 
 const useApplicationData = function() {
 
-  const [state, dispatch] = useReducer( reducer,{
-    day: "Monday",
-    days: [],
-    appointments:[
-      {
-      id: 1,
-      time: "12pm",
-      interview: null,
-      }
-    ],
-    interviewers:[],
-  })
-  
-  
+  const [state, dispatch] = useReducer( reducer,initState)
+   
 
-  const setAppointments = (appointArr) => setState(prev => Object.assign({},prev, {appointments:[...appointArr]}))
+  const setAppointments = (appointArr) => dispatch(
+    {
+    type: SET_APPLICATION_DATA, 
+    days: state.days,
+    appointments:appointArr,
+    interviewers: state.interviewers 
+  })
+  const setInterviewers = (interviewerArr) => dispatch(
+    {
+    type: SET_APPLICATION_DATA, 
+    days: state.days,
+    appointments:state.appointments,
+    interviewers: interviewerArr 
+  })
+
   const setInterviewers = (interviewerArr) => setState(prev => Object.assign({},prev, {interviewers:[...interviewerArr]}))
-  const setDay = day => setState(prev => ({...prev, day}))
+  const setDay = day => dispatch({type:SET_DAY, day})
   const setDays = (days) => {
-    return setState(prev => {
-      return ({ ...prev, days })
-    })
+    dispatch({})
   }
 
   // Get the current day
@@ -118,8 +138,11 @@ const useApplicationData = function() {
       for (let elem in res[2].data){
         interviewArr.push(res[2].data[elem])
       }
-      setAppointments(appointArr)
-      setInterviewers(interviewArr)
+      // setAppointments(appointArr)
+      dispatch({ type: SET_APPLICATION_DATA, days, appointments, interviewers });
+      // setInterviewers(interviewArr)
+      dispatch({ type: SET_INTERVIEW, id, interview });
+
     })
   }, [])
   return {state, setDay, bookInterview, cancelInterview}
