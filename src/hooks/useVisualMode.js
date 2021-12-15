@@ -4,6 +4,8 @@ export default function useVisualMode(initial){
   const [mode, setMode] = useState(initial)
   const [history, setHistory] = useState([initial]);
 
+  // Function transition sets the mode state to 
+  // a new mode
   const transition = function(newMode,replace){
     setMode(newMode)
     if (replace) {
@@ -21,6 +23,9 @@ export default function useVisualMode(initial){
     }
   };
 
+  // Function back removes the rightmost item
+  // from history if length is greater than 1 and 
+  // then sets the mode to the rightmost state.
   const back = () => {
     const historyCopy = [...history];
     if (historyCopy.length > 1){
