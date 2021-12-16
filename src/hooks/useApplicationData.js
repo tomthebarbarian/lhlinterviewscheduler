@@ -52,15 +52,15 @@ const useApplicationData = function() {
   // const setInterviewers = (interviewerArr) => setState(prev => Object.assign({},prev, {interviewers:[...interviewerArr]}))
   const setDay = day => dispatch({type:SET_DAY, day:day})
   
-  const setDays = (days) => {
-    console.log('in set days')
-    dispatch(
-    {
-    type: SET_APPLICATION_DATA, 
-    days: days,
-    appointments: state.appointments,
-    interviewers: state.interviewers 
-  })}
+  // const setDays = (days) => {
+  //   console.log('in set days')
+  //   dispatch(
+  //   {
+  //   type: SET_APPLICATION_DATA, 
+  //   days: days,
+  //   appointments: state.appointments,
+  //   interviewers: state.interviewers 
+  // })}
   
   // Get the current day
   let currDay = state.day
