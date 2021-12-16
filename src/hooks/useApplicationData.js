@@ -123,6 +123,14 @@ const useApplicationData = function() {
                 interviewers: state.interviewers 
               })
             // updateSpots(currId, false)
+          } else {
+            dispatch(
+              {
+                type: SET_APPLICATION_DATA, 
+                days: state.days,
+                appointments: appointmentsCopy,
+                interviewers: state.interviewers 
+              })
           }
         })
     )         
@@ -146,8 +154,7 @@ const useApplicationData = function() {
             interviewers: state.interviewers 
           })
         // updateSpots(currId, true)
-      }
-      )
+      })
   }
 
   // Api calls to get data from server
