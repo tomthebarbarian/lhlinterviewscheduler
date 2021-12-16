@@ -8,10 +8,12 @@ const reducer = (state, action) => {
   switch (action.type) {
   case SET_DAY:
     return {
+      ...state,
       day: action.day,
     }
   case SET_INTERVIEW:
     return {
+      ...state,
       id: action.id,
       interview: action.interview,
     }
@@ -155,15 +157,11 @@ const useApplicationData = function() {
         type: SET_APPLICATION_DATA,
         days:res[0].data,
         appointments:appointArr,
-        interviewers:interviewArr });
-      // setDays(res[0].data)
-      // setAppointments(appointArr)
-      // setInterviewers(interviewArr)
-      // dispatch({ type: SET_INTERVIEW, id, interview });
+        interviewers:interviewArr,
+       });
 
     })
   }, [])
-
   return {state, setDay, bookInterview, cancelInterview}
 }
 export default useApplicationData;
