@@ -18,7 +18,7 @@ const reducer = (state, action) => {
       interview: action.interview,
     }
   case SET_APPLICATION_DATA:
-    console.log(action.appointments)
+    // console.log(action.appointments)
     return {    
       ...state,
       interviewers: action.interviewers,
@@ -48,16 +48,6 @@ const initState = {
 const useApplicationData = function() {
 
   const [state, dispatch] = useReducer(reducer,initState)
-   
-
-  const setAppointments = (appointArr) => dispatch(
-    {
-      type: SET_APPLICATION_DATA, 
-      days: state.days,
-      appointments:appointArr,
-      interviewers: state.interviewers 
-    }
-  )
 
   // const setInterviewers = (interviewerArr) => setState(prev => Object.assign({},prev, {interviewers:[...interviewerArr]}))
   const setDay = day => dispatch({type:SET_DAY, day:day})
@@ -83,15 +73,15 @@ const useApplicationData = function() {
   }
 
   // Update free spots
-  const updateSpots = (id, increment) => {
-    const copyDays = [...state.days];
-    if (increment) {
-      copyDays[id-1].spots += 1
-    } else {
-      copyDays[id-1].spots -= 1
-    }
-     setDays(copyDays)
-  }
+  // const updateSpots = (id, increment) => {
+  //   const copyDays = [...state.days];
+  //   if (increment) {
+  //     copyDays[id-1].spots += 1
+  //   } else {
+  //     copyDays[id-1].spots -= 1
+  //   }
+  //    setDays(copyDays)
+  // }
 
   const bookInterview = (id, interview) =>{
     const appointment = {
@@ -111,10 +101,11 @@ const useApplicationData = function() {
       axios.put(`/api/appointments/${id}`,{interview})
         .then(() => {
           if (createNewAppointment){
-            console.log('old appoint', state.appointments)
-            console.log('new appoint?', appointmentsCopy)
+            // console.log('old appoint', state.appointments)
+            // console.log('new appoint?', appointmentsCopy)
             const copyDays = [...state.days];
-            copyDays[id-1].spots -= 1
+            // console.log(copyDays)
+            copyDays[currId-1].spots -= 1
             dispatch(
               {
                 type: SET_APPLICATION_DATA, 
@@ -139,13 +130,10 @@ const useApplicationData = function() {
   const cancelInterview = (id) => {
     const appointCopy = [...state.appointments]
     appointCopy[id-1].interview = null
-    
     return axios.delete(`/api/appointments/${id}`)
       .then(() => {
-      //   console.log('old appoint', state.appointments)
-      //   console.log('new appoint?', appointCopy)
         const copyDays = [...state.days];
-        copyDays[id-1].spots += 1
+        copyDays[currId-1].spots += 1
         dispatch(
           {
             type: SET_APPLICATION_DATA, 
@@ -153,7 +141,6 @@ const useApplicationData = function() {
             appointments:appointCopy,
             interviewers: state.interviewers 
           })
-        // updateSpots(currId, true)
       })
   }
 
