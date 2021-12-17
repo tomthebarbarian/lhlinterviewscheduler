@@ -144,6 +144,8 @@ const useApplicationData = function() {
       })
   }
 
+  //  Web Sockets
+  let interviewSocket = new WebSocket("wss://localhost:8001")
   // Api calls to get data from server
   useEffect(() => {
     Promise.all([
