@@ -145,9 +145,13 @@ const useApplicationData = function() {
   }
 
   //  Web Sockets
-  let interviewSocket = new WebSocket("wss://localhost:8001")
   // Api calls to get data from server
   useEffect(() => {
+    let interviewSocket = new WebSocket("wss://localhost:8001")
+    if (interviewSocket.readyState) {
+      interviewSocket.send('something')
+    }
+    
     Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
