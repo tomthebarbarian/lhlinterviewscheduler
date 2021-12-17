@@ -1,4 +1,5 @@
 export const getAppointmentsForDay = (state, checkDay) => {
+  // console.log(state)
   const filteredAppoint = state.days.filter(day => day.name === checkDay);
   const dayObj = filteredAppoint[0];
   let appointArray = [];
