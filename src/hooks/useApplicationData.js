@@ -1,7 +1,7 @@
 import { useEffect, useReducer} from "react"
 import axios from 'axios'
 
-const SET_DAY = "SET_DAY"
+// const SET_DAY = "SET_DAY"
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA"
 const SET_INTERVIEW = "SET_INTERVIEW"
 const reducer = (state, action) => {
