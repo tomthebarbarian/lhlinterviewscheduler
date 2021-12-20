@@ -147,9 +147,10 @@ const useApplicationData = function() {
   //  Web Sockets
   // Api calls to get data from server
   useEffect(() => {
-    let interviewSocket = new WebSocket("wss://localhost:8001")
-    if (interviewSocket.readyState) {
+    let interviewSocket = new WebSocket("wss://localhost:8001/api/days")
+    interviewSocket.onopen = (event) => {
       interviewSocket.send('something')
+      console.log('in send',event.data)
     }
     
     Promise.all([
