@@ -54,6 +54,7 @@ const fixtures = {
 };
 
 export default {
+  defaults: {baseUrl: ""},
   get: jest.fn(url => {
     if (url === "/api/days") {
       return Promise.resolve({
@@ -80,5 +81,6 @@ export default {
         data: fixtures.interviewers
       });
     }
-  })
+  }),
+  
 }
