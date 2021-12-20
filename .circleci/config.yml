@@ -33,9 +33,10 @@ deploy:
         name: Push Master to Production
         command: |
           git push https://github.com/tomthebarbarian/lhlinterviewscheduler master:production
+
 workflows:
   version: 2
-  test:
+  test_and_deploy:
     jobs:
       - build:
           filters:
