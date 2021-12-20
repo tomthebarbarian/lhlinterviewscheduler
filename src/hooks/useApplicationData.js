@@ -1,7 +1,7 @@
 import { useEffect, useReducer} from "react"
 import axios from 'axios'
 
-const SET_DAY = "SET_DAY"
+// const SET_DAY = "SET_DAY"
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA"
 const SET_INTERVIEW = "SET_INTERVIEW"
 const reducer = (state, action) => {
@@ -144,8 +144,15 @@ const useApplicationData = function() {
       })
   }
 
+  //  Web Sockets
   // Api calls to get data from server
   useEffect(() => {
+    let interviewSocket = new WebSocket("wss://localhost:8001/api/days")
+    interviewSocket.onopen = (event) => {
+      interviewSocket.send('something')
+      console.log('in send',event.data)
+    }
+    
     Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
