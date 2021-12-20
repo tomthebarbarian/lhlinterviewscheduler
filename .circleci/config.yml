@@ -18,9 +18,32 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
+deploy:
+  machine:
+    enabled: true
 
+  working_directory: ~/client
+
+  steps:
+    - add_ssh_keys:
+        fingerprints:
+          - "1b:cc:70:0d:10:4e:0e:80:c4:e8:d3:ff:fa:ac:68:d6"
+    - checkout
+    - run:
+        name: Push Master to Production
+        command: |
+          git push https://github.com/tomthebarbarian/lhlinterviewscheduler master:production
 workflows:
   version: 2
   test:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore: production
+      - deploy:
+          filters:
+            branches:
+              ignore: production
+          requires:
+            - build
